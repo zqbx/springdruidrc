@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- @version $Id: spring-context.xml 561608 2007-08-01 00:33:12Z vgritsenko $ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd">
+  <!--设置自动扫描的包-->
+  <context:component-scan base-package="com.zqbx"/>
+  <!-- 加载配置属性文件 -->
+  <context:property-placeholder ignore-unresolvable="true" location="classpath:config.properties" />
+
+  <!-- 配置数据源 -->
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver}"/>
+      <property name="url" value="${jdbc.url}?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+      <!-- 初始化连接大小 -->
+      <property name="initialSize" value="1"></property>
+      <!-- 连接池最大数量 -->
+      <property name="maxActive" value="20"></property>
+      <!-- 连接池最小空闲 -->
+      <property name="minIdle" value="3"></property>
+      <!-- 配置获取连接等待超时的时间 -->
+      <property name="maxWait" value="60000"></property>
+      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+      <property name="minEvictableIdleTimeMillis" value="300000" />
+  </bean>
+
+  <!-- mybatis和spring完美整合，不需要mybatis的配置映射文件 -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <!-- 自动扫描mapper.xml文件 -->
+    <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+  </bean>
+  <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.zqbx.dao"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+  </bean>
+
+  <!-- 定义事务(事务管理)transaction manager, use JtaTransactionManager for global tx -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+  <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+  <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+
+  <!-- Configure Log4j -->
+  <bean name="org.apache.cocoon.spring.configurator.log4j"
+        class="org.apache.cocoon.spring.configurator.log4j.Log4JConfigurator"
+        scope="singleton">
+    <property name="settings" ref="org.apache.cocoon.configuration.Settings"/>
+    <property name="resource" value="/WEB-INF/log4j.xml"/>
+  </bean>
+
+</beans>
