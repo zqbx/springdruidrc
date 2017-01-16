@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.springmvc.dao.CityMapper" >
-  <resultMap id="BaseResultMap" type="cn.springmvc.model.City" >
+<mapper namespace="com.zqbx.dao.CityMapper" >
+  <resultMap id="BaseResultMap" type="com.zqbx.domain.City" >
     <id column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
@@ -18,11 +18,11 @@
     delete from city
     where code = #{code,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="cn.springmvc.model.City" >
+  <insert id="insert" parameterType="com.zqbx.domain.City" >
     insert into city (code, name)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.springmvc.model.City" >
+  <insert id="insertSelective" parameterType="com.zqbx.domain.City" >
     insert into city
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="code != null" >
@@ -41,7 +41,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.springmvc.model.City" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.zqbx.domain.City" >
     update city
     <set >
       <if test="name != null" >
@@ -50,7 +50,7 @@
     </set>
     where code = #{code,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.springmvc.model.City" >
+  <update id="updateByPrimaryKey" parameterType="com.zqbx.domain.City" >
     update city
     set name = #{name,jdbcType=VARCHAR}
     where code = #{code,jdbcType=VARCHAR}

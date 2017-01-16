@@ -9,8 +9,6 @@ import javax.annotation.Resource;
 
 /**
  * CityServiceImpl
- * cn.springmvc.service.impl
- *
  * @author xiaoyy
  * @description
  * @create 2016-11-30 上午11:23

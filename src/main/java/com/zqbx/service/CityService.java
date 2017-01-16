@@ -4,8 +4,6 @@ import com.zqbx.domain.City;
 
 /**
  * CityService
- * cn.springmvc.service
- *
  * @author xiaoyy
  * @description
  * @create 2016-11-30 上午11:21
