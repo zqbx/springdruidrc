@@ -11,18 +11,18 @@
   </context-param>
 
   <!--编码过滤器-->
-  <filter>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-    <init-param>
-      <param-name>encoding</param-name>
-      <param-value>utf-8</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  <!--<filter>-->
+    <!--<filter-name>CharacterEncodingFilter</filter-name>-->
+    <!--<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>-->
+    <!--<init-param>-->
+      <!--<param-name>encoding</param-name>-->
+      <!--<param-value>utf-8</param-value>-->
+    <!--</init-param>-->
+  <!--</filter>-->
+  <!--<filter-mapping>-->
+    <!--<filter-name>CharacterEncodingFilter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
+  <!--</filter-mapping>-->
 
   <!--配置spring监听器-->
   <listener>
@@ -35,7 +35,7 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:spring-mvc.xml</param-value>
+      <param-value>classpath*:spring-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -43,21 +43,21 @@
   <servlet-mapping>
     <servlet-name>SpringMVC</servlet-name>
     <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <!--druid监控页面-->
-  <servlet>
-    <servlet-name>DruidStatView</servlet-name>
-    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>DruidStatView</servlet-name>
-    <url-pattern>/druid/*</url-pattern>
-  </servlet-mapping>
+  <!--<servlet>-->
+    <!--<servlet-name>DruidStatView</servlet-name>-->
+    <!--<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>-->
+  <!--</servlet>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>DruidStatView</servlet-name>-->
+    <!--<url-pattern>/druid/*</url-pattern>-->
+  <!--</servlet-mapping>-->
 
 
   <welcome-file-list>
-    <welcome-file>/index.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
